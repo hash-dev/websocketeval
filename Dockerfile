@@ -1,9 +1,10 @@
 FROM ubuntu:14.04
 
-RUN apt-get install vim
-	&& apt-get install php5
-	&& apt-get install nodejs-legacy
-	&& apt-get install npm
+RUN apt-get update && apt-get install -y \
+	nodejs-legacy \
+	npm \
+	php5 \
+	vim
 
 # Bundle app source
 COPY . /src
@@ -11,6 +12,6 @@ COPY . /src
 # Install app dependencies
 RUN cd /src/server; npm install
 
-EXPOSE 8080
+EXPOSE 8000
 
-CMD ["node", "/src/client/index.js"]
+CMD ["node", "/src/server/server.js"]
