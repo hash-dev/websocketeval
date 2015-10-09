@@ -1,16 +1,26 @@
 {
-	"name": "websocketeval",
-	"private": true,
-	"version": "0.0.1",
-	"description": "A simple prototype websocket app for evaluating and testing the websocket protocol",
-	"author": "Holger Harms <kontakt@hash-developer.de>",
-	"dependencies": {
-		"socket.io": "1.3.7",
-		"xml2json": "0.9.0",
-		"fs": "0.0.2"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/hash-developer/websocketeval.git"
-	}
+  "name": "websocketeval",
+  "version": "0.0.1",
+  "description": "A simple prototype websocket app for evaluating and testing the websocket protocol",
+  "main": "server.js",
+  "dependencies": {
+    "http": "0.0.0",
+    "xml2json": "0.9.0",
+    "socket.io": "1.3.7",
+    "fs": "0.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hash-developer/websocketeval.git"
+  },
+  "author": "Holger Harms",
+  "license": "GNU v2",
+  "bugs": {
+    "url": "https://github.com/hash-developer/websocketeval/issues"
+  }
 }

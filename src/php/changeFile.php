@@ -1,9 +1,9 @@
 <?php
  
-$file = "../data/example.xml";
+$file = __DIR__ . "/../data/example.xml";
 $pattern = '/Random Data: \d+/i';
  
-for ($i = 0; $i<100; $i++) {
+while(true) {
     $randomInt = rand(0, 10000);
     $replaceString = "Random Data: " . $randomInt;
  

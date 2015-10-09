@@ -1,17 +1,15 @@
 FROM ubuntu:14.04
 
+# Install necessary software
 RUN apt-get update && apt-get install -y \
 	nodejs-legacy \
-	npm \
 	php5 \
+	npm \
 	vim
 
 # Bundle app source
-COPY . /src
+#COPY ./src /websocketeval/
 
 # Install app dependencies
-RUN cd /src/server; npm install
-
-EXPOSE 8000
-
-CMD ["node", "/src/server/server.js"]
+CMD ["cd", "/websocketeval/server/"]
+CMD ["npm", "install"]
