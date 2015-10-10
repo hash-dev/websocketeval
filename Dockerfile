@@ -8,8 +8,8 @@ RUN apt-get update && apt-get install -y \
 	vim
 
 # Bundle app source
-#COPY ./src /websocketeval/
+COPY ./src /websocketeval/
 
 # Install app dependencies
-CMD ["cd", "/websocketeval/server/"]
+CMD ["cd", "/websocketeval/"]
 CMD ["npm", "install"]

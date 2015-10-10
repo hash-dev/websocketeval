@@ -4,13 +4,13 @@ var app	= require('http').createServer(handler),
 	fs = require('fs');
  
 // create server
-app.listen(8000);
+app.listen(8080);
  
-console.log('server listening on localhost:8000');
+console.log('server listening on localhost:8080');
  
 // on server start load client.html
 function handler(req, res) {
-	fs.readFile(__dirname + '/../client/client.html', function(err, data) {
+	fs.readFile(__dirname + 'client.html', function(err, data) {
 		if(err) {
 			console.log(err);
 			res.writeHead(500);
@@ -20,15 +20,17 @@ function handler(req, res) {
 		res.end(data);
 	});
 }
- 
+
+io.set("origins", "*:*"); 
+
 // creating a new websocket-connection to keep the content updated without any AJAX request
 io.sockets.on('connection', function(socket) {
 	console.log(__dirname);
  
 	//watching the xml file
-	fs.watchFile(__dirname + '/../data/example.xml', { persistent: true, interval: 1000 }, function(curr, prev) {
+	fs.watchFile(__dirname + '/example.xml', { persistent: true, interval: 1000 }, function(curr, prev) {
 		// on file change read the new xml
-		fs.readFile(__dirname + '/../data/example.xml', function(err, data) {
+		fs.readFile(__dirname + '/example.xml', function(err, data) {
 			if(err) throw err;
 
 			// parsing the new xml data and converting it into json file

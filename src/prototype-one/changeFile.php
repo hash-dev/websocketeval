@@ -1,6 +1,6 @@
 <?php
  
-$file = __DIR__ . "/../data/example.xml";
+$file = __DIR__ . "/example.xml";
 $pattern = '/Random Data: \d+/i';
  
 while(true) {
