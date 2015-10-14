@@ -21,7 +21,7 @@ function handler(req, res) {
 	});
 }
 
-io.set("origins", "*:*"); 
+//io.set("origins", "*:*"); 
 
 // creating a new websocket-connection to keep the content updated without any AJAX request
 io.sockets.on('connection', function(socket) {
