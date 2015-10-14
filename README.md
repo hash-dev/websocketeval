@@ -9,21 +9,21 @@ So far there is the 'prototype-one' which simply pushes information to all conne
 * Clone the project or download the .zip-archive
 * Change into the root-directory and build the docker-image
 
-'''
+```
 docker build -t imageprefix/imagesuffix:tag path/to/Dockerfile
-'''
+```
 
 * After the build run the container
 
-'''
+```
 docker run -d -p 8080:8080 -v $PWD:/root imageprefix/imagesuffix:tag
-'''
+```
 
 * The container is now running in detached mode (in the background) and the ws-server is already running
 * Also start the php-script for simulating the changing data (get the container-name via the command "docker ps")
 
-'''
+```
 docker exec -d container-name php /root/prototype-one/changeFile.php
-'''
+```
 
 * In your browser open the file "prototype-one/client.html" and you should see data updates every second
