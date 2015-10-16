@@ -1,4 +1,7 @@
 .git
 .git/*
-src/node_modules
-src/node_modules/*
+public/.bash_history
+public/node_modules
+public/node_modules/*
+public/bower_components
+public/bower_components/*

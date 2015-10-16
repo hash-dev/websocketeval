@@ -1,0 +1,23 @@
+{
+  "name": "websocketeval",
+  "description": "A simple prototype websocket app for evaluating and testing the websocket protocol",
+  "main": "index.html",
+  "authors": [
+    "Holger Harms"
+  ],
+  "license": "GNU v2",
+  "homepage": "https://github.com/hash-developer/websocketeval",
+  "moduleType": [
+    "globals"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "startbootstrap-sb-admin-2": "1.0.7"
+  }
+}
