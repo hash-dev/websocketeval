@@ -4,7 +4,7 @@ This project includes a Dockerfile for building the related image and src-files 
 
 So far there is the 'prototype-one' which simply pushes information to all connected clients, if the data in the example.xml has changed. A php-script changes the xml-file every second as long as it runs.
 
-## Prerequiries
+## Prerequisites
 
 * npm and bower (and docker, if you want to use it)  installed globally
 
