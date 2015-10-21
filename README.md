@@ -2,20 +2,25 @@
 
 This project includes a Dockerfile for building the related image and src-files for the websocket-evaluation prototypes. You don't necessarily need to run the docker container and can use the prototypes as stand-alone.
 
-So far there is the 'prototype-one' which simply pushes information to all connected clients, if the data in the example.xml has changed. A php-script changes the xml-file every second as long as it runs.
+So far there is the 'prototype-one' which simply pushes information to all connected clients, if the data in the example.xml has changed. A php-script changes the xml-file every second as long as it is running.
 
 ## Prerequisites
 
-* npm and bower (and docker, if you want to use it)  installed globally
+* npm (and docker, if you want to use it) installed globally
 
 ## Usage
 
 * Clone the project or download the .zip-archive
 * Change into the root-directory
-* Install the necessary npm and bower dependencies:
+* Install the necessary dependencies via npm:
 
 ```
 npm install
+```
+
+* After the installation of the dependencies, install the bower-dependencies - which in this case is bootstrap-template:
+
+```
 bower install
 ```
 
