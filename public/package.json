@@ -4,15 +4,17 @@
   "description": "A simple prototype websocket app for evaluating and testing the websocket protocol",
   "main": "server.js",
   "dependencies": {
-    "http": "0.0.0",
-    "xml2json": "0.9.0",
-    "socket.io": "1.3.7",
-    "fs": "0.0.2",
-    "express": "4.13.3",
+    "binaryjs": "0.2.1",
     "bower": "1.6.3",
+    "express": "4.13.3",
+    "fs": "0.0.2",
     "grunt": "0.4.5",
     "grunt-contrib-sass": "0.9.2",
-    "grunt-contrib-watch": "0.6.1"
+    "grunt-contrib-watch": "0.6.1",
+    "http": "0.0.0",
+    "socket.io": "1.3.7",
+    "ws": "0.8.0",
+    "xml2json": "0.9.0"
   },
   "devDependencies": {},
   "scripts": {

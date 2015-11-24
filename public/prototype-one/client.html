@@ -13,6 +13,7 @@
         <link href="res/css/metisMenu.min.css" rel="stylesheet">
         <link href="res/css/sb-admin-2.css" rel="stylesheet">
         <link href="res/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="res/css/websocketeval.css" rel="stylesheet">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,19 +31,19 @@
                                 <ul class="nav nav-pills pull-right">
                                         <li role="presentation"><a href="../index.html">Home</a></li>
                                         <li role="presentation"><a href="client.html">Prototype-One</a></li>
-                                        <li role="presentation"><a href="#">Prototype-Two</a></li>
+                                        <li role="presentation"><a href="../prototype-two/client.html">Prototype-Two</a></li>
                                 </ul>
                         </nav>
                         <h3 class="text-muted">Realtime Web-Communication</h3>
                 </div>
                 <hr>
 
-		<div class="row">
+		<div class="row narrow">
 			<h1>Prototype One - Push Notification Server</h1>
 			<p>Server pushes new information if data has changed</p>
 		</div>
 
-		<div class="row">
+		<div class="row narrow">
 			<time></time>
 			<div id="container">Changing xml-data data will update this content</div>
 		</div>
@@ -68,7 +69,7 @@
 		socket.on('notification', function (data) {
 			// convert the json string into a valid javascript object
 			var _data = JSON.parse(data);
- 
+
 			$('#container').html(_data.test.sample);
 			$('time').html('Last Update: ' + new Date());
 		});
