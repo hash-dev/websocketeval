@@ -59,11 +59,16 @@
         <script src="res/js/bootstrap.min.js"></script>
         <script src="res/js/metisMenu.min.js"></script>
         <script src="res/js/sb-admin-2.js"></script>
+	<script src="socket.io/socket.io.js"></script>
 
-	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
 	<script>
+		var socketLocation = '<script src="http://' + location.host + '/socket.io/socket.io.js"><\/script>';
+		
+		console.log(location.host);
+		//$('script[src="res/js/sb-admin-2.js"]').after(socketLocation);
+		
 		// create websocket
-		var socket = io.connect('http://localhost:8080');
+		var socket = io.connect('http://' + location.host + ':8080');
 		// on every message received print the new data inside #container
 
 		socket.on('notification', function (data) {

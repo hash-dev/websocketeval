@@ -62,7 +62,8 @@
     <script src="res/js/sb-admin-2.js"></script>
 
     <script>
-        var wsUri = 'ws://localhost:8081';
+	var host = location.host;
+        var wsUri = 'ws://' + host + ':8081';
         var output;
 
         function init() {
@@ -109,6 +110,13 @@
             pre.innerHTML = message;
             output.replaceChild(pre, oldPre);
         }
+
+	function getIp() {
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', 'getIp.php', false);
+		xhr.send();
+		return xhr.responseText();
+	}
 
         window.addEventListener('load', init, false);
     </script>
