@@ -6,7 +6,7 @@ var app	= require('http').createServer(handler),
 // create server
 app.listen(8080);
  
-console.log('server listening on localhost:8080');
+console.log('started server -  listening on localhost:8080');
  
 // on server start load client.html
 function handler(req, res) {

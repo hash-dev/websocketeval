@@ -1,4 +1,4 @@
-// var host = 'ADJUST-TO-MATCH-WS-SERVER';
+var host = 'localhost';
 var wsUri = 'ws://' + host + ':8081';
 var output;
 
@@ -9,18 +9,18 @@ function init() {
 
 function testWebSocket() {
     websocket = new WebSocket(wsUri);
-    websocket.onopen = function(evt) { onOpen(evt) };
-    websocket.onclose = function(evt) { onClose(evt) };
-    websocket.onmessage = function(evt) { onMessage(evt) };
-    websocket.onerror = function(evt) { onError(evt) };
+    websocket.onopen = function(evt) { onOpen(evt); };
+    websocket.onclose = function(evt) { onClose(evt); };
+    websocket.onmessage = function(evt) { onMessage(evt); };
+    websocket.onerror = function(evt) { onError(evt); };
 }
 
 function onOpen(evt) {
-    writeToScreen('CONNECTED');
+    writeToScreen('SERVER CONNECTION ESTABLISHED');
 }
 
 function onClose(evt) {
-    writeToScreen('DISCONNECTED');
+    writeToScreen('SERVER CONNECTION SEPARATED');
 }
 
 function onMessage(evt) {
@@ -45,13 +45,6 @@ function writeMessage(message) {
     pre.style.wordWrap = 'break-word';
     pre.innerHTML = message;
     output.replaceChild(pre, oldPre);
-}
-
-function getIp() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'getIp.php', false);
-        xhr.send();
-        return xhr.responseText();
 }
 
 window.addEventListener('load', init, false);
