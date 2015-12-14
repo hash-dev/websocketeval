@@ -1,33 +1,65 @@
 // Initialize StatsD module
 var StatsD = require('node-statsd'),
-      client = new StatsD();
+    client = new StatsD();
 
 var WebSocketServer = require('ws').Server,
     wss = new WebSocketServer({ port: 8081 });
 
+printServerStatus();
+
+setTimeout(function() {
+    
+    function doSend(data) {
+        wss.broadcast(data);
+    }
+    
+    (function loop() {
+        var randomTimeout = getRandomTimeout();
+        setTimeout(function() {
+            doSend( getRandomData() );
+            loop();  
+        }, randomTimeout);
+    }());
+    
+}, 100);
+
+
 wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
-  });
+    
+    printConnectionData(ws);
+    client.increment('client-connection'); // StatsD connection-metric
 
-  // On every connection increment the StatsD-connection-value
-  client.increment('client-connection');
-
-  ws.on('open', function open() {
-        console.log('ws connection open');
-  });
-
-  ws.on('close', function close() {
-        console.log('ws connection closed');
-        // client.decrement('client-connection');
-  });
-
-  // Send a random number every second as long as the connection persists
-  setInterval(function() {
-        ws.send(String(getRandomNumber()));
-    }, 1000);
+    ws.on('close', function() {
+        console.log('closed connection-' + this._ultron.id);
+    });
 });
 
-function getRandomNumber() {
-    return Math.floor((Math.random() * 1000) + 1);
+wss.broadcast = function broadcast(data) {
+    
+  wss.clients.forEach(function each(client) {
+    client.send(data);
+  });
+};
+
+function printServerStatus() {
+    console.log('started server -  listening on localhost:8081');
+}
+
+function printConnectionData(ws) {
+    console.log('opened connection-' + ws._ultron.id);
+}
+
+function getRandomData() {
+    var text = "";
+    var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ";
+    var randomLength = Math.floor(Math.random() * 4000) + 1;  
+
+    for( var i=0; i < randomLength; i++ )
+        text += chars.charAt(Math.floor(Math.random() * chars.length));
+
+    return text;
+}
+
+function getRandomTimeout() {
+    return Math.floor(Math.random() * 10000) + 100;
 }
