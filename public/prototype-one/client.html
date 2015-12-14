@@ -1,85 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=egde">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Holger Harms">
 
-	<meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=egde">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="author" content="Holger Harms">
+    <title>Prototype One - Arbitrary Data Serverpush | WebSocket Evaluation</title>
 
-        <title>Prototype One - Push Notification Server | WebSocket Evaluation</title>
+    <link href="res/css/bootstrap.min.css" rel="stylesheet">
+    <link href="res/css/metisMenu.min.css" rel="stylesheet">
+    <link href="res/css/sb-admin-2.css" rel="stylesheet">
+    <link href="res/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="res/css/websocketeval.css" rel="stylesheet">
 
-        <link href="res/css/bootstrap.min.css" rel="stylesheet">
-        <link href="res/css/metisMenu.min.css" rel="stylesheet">
-        <link href="res/css/sb-admin-2.css" rel="stylesheet">
-        <link href="res/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <link href="res/css/websocketeval.css" rel="stylesheet">
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE9]>
-                <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-                <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
 
-	<div class="container">
-                <div class="header clearfix">
-                        <nav>
-                                <ul class="nav nav-pills pull-right">
-                                        <li role="presentation"><a href="../index.html">Home</a></li>
-                                        <li role="presentation"><a href="client.html">Prototype-One</a></li>
-                                        <li role="presentation"><a href="../prototype-two/client.html">Prototype-Two</a></li>
-                                </ul>
-                        </nav>
-                        <h3 class="text-muted">Realtime Web-Communication</h3>
-                </div>
-                <hr>
+    <div class="container">
+        <div class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="../index.html">Home</a></li>
+                    <li role="presentation"><a href="../prototype-one/client.html">Prototype-One</a></li>
+                    <li role="presentation"><a href="../prototype-two/client.html">Prototype-Two</a></li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Realtime Web-Communication</h3>
+        </div>
+        <hr>
 
-		<div class="row narrow">
-			<h1>Prototype One - Push Notification Server</h1>
-			<p>Server pushes new information if data has changed</p>
-		</div>
-
-		<div class="row narrow">
-			<time></time>
-			<div id="container">Changing xml-data data will update this content</div>
-		</div>
-
-		<hr>
-
-                <footer class="footer">
-                        <p>2015 - Masterprojekt - TH Köln</p>
-                </footer>
+        <div class="row narrow">
+            <h1>Prototype One - Arbitrary Data Serverpush</h1>
+            <p>a simple WS-server: random text data is being pushed to the client.</p>
         </div>
 
-	<script src="res/js/jquery.min.js"></script>
-        <script src="res/js/bootstrap.min.js"></script>
-        <script src="res/js/metisMenu.min.js"></script>
-        <script src="res/js/sb-admin-2.js"></script>
-	<script src="socket.io/socket.io.js"></script>
+        <div class="row narrow">
+            <div id="output">
+                <p id="server-data"></p>
+            </div>
+        </div>
 
-	<script>
-		var socketLocation = '<script src="http://' + location.host + '/socket.io/socket.io.js"><\/script>';
-		
-		console.log(location.host);
-		//$('script[src="res/js/sb-admin-2.js"]').after(socketLocation);
-		
-		// create websocket
-		var socket = io.connect('http://' + location.host + ':8080');
-		// on every message received print the new data inside #container
+        <hr>
 
-		socket.on('notification', function (data) {
-			// convert the json string into a valid javascript object
-			var _data = JSON.parse(data);
+        <footer class="footer">
+                <p>2015 - Masterprojekt - TH Köln</p>
+        </footer>
+    </div>
 
-			$('#container').html(_data.test.sample);
-			$('time').html('Last Update: ' + new Date());
-		});
-	</script>
+    <script src="res/js/jquery.min.js"></script>
+    <script src="res/js/bootstrap.min.js"></script>
+    <script src="res/js/metisMenu.min.js"></script>
+    <script src="res/js/sb-admin-2.js"></script>
+    <script src="client.js"></script>
 </body>
 </html>
-
-

@@ -1,124 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=egde">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="author" content="Holger Harms">
+    <meta http-equiv="X-UA-Compatible" content="IE=egde">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Holger Harms">
 
-        <title>Prototype Two - Binary Data Serverpush | WebSocket Evaluation</title>
+    <title>Prototype Two - Push Notification Server | WebSocket Evaluation</title>
 
-        <link href="res/css/bootstrap.min.css" rel="stylesheet">
-        <link href="res/css/metisMenu.min.css" rel="stylesheet">
-        <link href="res/css/sb-admin-2.css" rel="stylesheet">
-        <link href="res/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <link href="res/css/websocketeval.css" rel="stylesheet">
+    <link href="res/css/bootstrap.min.css" rel="stylesheet">
+    <link href="res/css/metisMenu.min.css" rel="stylesheet">
+    <link href="res/css/sb-admin-2.css" rel="stylesheet">
+    <link href="res/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="res/css/websocketeval.css" rel="stylesheet">
 
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE9]>
-                <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-                <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
 
     <div class="container">
         <div class="header clearfix">
-                <nav>
-                        <ul class="nav nav-pills pull-right">
-                                <li role="presentation"><a href="../index.html">Home</a></li>
-                                <li role="presentation"><a href="../prototype-one/client.html">Prototype-One</a></li>
-                                <li role="presentation"><a href="client.html">Prototype-Two</a></li>
-                        </ul>
-                </nav>
-                <h3 class="text-muted">Realtime Web-Communication</h3>
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="../index.html">Home</a></li>
+                    <li role="presentation"><a href="../prototype-one/client.html">Prototype-One</a></li>
+                    <li role="presentation"><a href="../prototype-two/client.html">Prototype-Two</a></li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Realtime Web-Communication</h3>
         </div>
         <hr>
 
         <div class="row narrow">
-            <h1>Prototype Two - Binary Data Serverpush</h1>
-            <p>very simple ws-server: random raw data is being pushed to the client</p>
+            <h1>Prototype Two - Push Notification Server</h1>
+            <p>A simple Socket.IO-server: changed data is being pushed to the client.</p>
         </div>
 
         <div class="row narrow">
-            <div id="output">
-                <p id="server-data"></p>
-            </div>
+            <time></time>
+            <div id="container">Changed XML-file data causes Socket.IO-server to update this content.</div>
         </div>
 
-    <hr>
+        <hr>
 
-            <footer class="footer">
-                    <p>2015 - Masterprojekt - TH Köln</p>
-            </footer>
+        <footer class="footer">
+            <p>2015 - Masterprojekt - TH Köln</p>
+        </footer>
     </div>
 
     <script src="res/js/jquery.min.js"></script>
     <script src="res/js/bootstrap.min.js"></script>
     <script src="res/js/metisMenu.min.js"></script>
     <script src="res/js/sb-admin-2.js"></script>
-
-    <script>
-	var host = location.host;
-        var wsUri = 'ws://' + host + ':8081';
-        var output;
-
-        function init() {
-            output = document.getElementById('output');
-            testWebSocket();
-        }
-
-        function testWebSocket() {
-            websocket = new WebSocket(wsUri);
-            websocket.onopen = function(evt) { onOpen(evt) };
-            websocket.onclose = function(evt) { onClose(evt) };
-            websocket.onmessage = function(evt) { onMessage(evt) };
-            websocket.onerror = function(evt) { onError(evt) };
-        }
-
-        function onOpen(evt) {
-            writeToScreen('CONNECTED');
-        }
-
-        function onClose(evt) {
-            writeToScreen('DISCONNECTED');
-        }
-
-        function onMessage(evt) {
-            writeMessage('<span style="color: blue;">Server Data: ' + evt.data+'</span>');
-        }
-
-        function onError(evt) {
-            writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
-        }
-
-        function writeToScreen(message) {
-            var pre = document.createElement('p');
-            pre.style.wordWrap = 'break-word';
-            pre.innerHTML = message;
-            output.appendChild(pre);
-        }
-
-        function writeMessage(message) {
-            var pre = document.createElement('p');
-            pre.setAttribute('id', 'server-data');
-            var oldPre = document.getElementById('server-data');
-            pre.style.wordWrap = 'break-word';
-            pre.innerHTML = message;
-            output.replaceChild(pre, oldPre);
-        }
-
-	function getIp() {
-		var xhr = new XMLHttpRequest();
-		xhr.open('GET', 'getIp.php', false);
-		xhr.send();
-		return xhr.responseText();
-	}
-
-        window.addEventListener('load', init, false);
-    </script>
+    <script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
+    <script src="client.js"></script>
 </body>
 </html>
+
+

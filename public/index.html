@@ -1,71 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=egde">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="author" content="Holger Harms">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=egde">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Holger Harms">
 
-	<title>WebSocket Evaluation</title>
+    <title>WebSocket Evaluation</title>
 
-	<link href="res/css/bootstrap.min.css" rel="stylesheet">
-	<link href="res/css/metisMenu.min.css" rel="stylesheet">
-	<link href="res/css/sb-admin-2.css" rel="stylesheet">
-	<link href="res/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="res/css/bootstrap.min.css" rel="stylesheet">
+    <link href="res/css/metisMenu.min.css" rel="stylesheet">
+    <link href="res/css/sb-admin-2.css" rel="stylesheet">
+    <link href="res/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE9]>
-		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
-	<div class="container">
-		<div class="header clearfix">
-			<nav>
-				<ul class="nav nav-pills pull-right">
-					<li role="presentation"><a href="index.html">Home</a></li>
-					<li role="presentation"><a href="prototype-one/client.html">Prototype-One</a></li>
-					<li role="presentation"><a href="prototype-two/client.html">Prototype-Two</a></li>
-				</ul>
-			</nav>
-			<h3 class="text-muted">Realtime Web-Communication</h3>
-		</div>
-		<hr>
+    <div class="container">
+        <div class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                        <li role="presentation"><a href="index.html">Home</a></li>
+                        <li role="presentation"><a href="prototype-one/client.html">Prototype-One</a></li>
+                        <li role="presentation"><a href="prototype-two/client.html">Prototype-Two</a></li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Realtime Web-Communication</h3>
+        </div>
+        <hr>
 
-		<div class="jumbotron">
-			<h1>WebSocket Evaluation</h1>
-			<p class="lead">
-				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et.
-			</p>
-		</div>
+        <div class="jumbotron">
+            <h1>WebSocket Evaluation</h1>
+            <p class="lead">
+                The prototypes aim to examine the capacity, performance and limits of the WebSocket protocol.
+            </p>
+        </div>
 
-		<div class="row marketing">
-			<div class="col-md-6">
+        <div class="row marketing">
+            <div class="col-md-6">
 
-				<h4><a href="prototype-one/client.html">Prototype-One</a></h4>
-				<p><strong>Push Notification Server</strong> - changing data is being pushed every second to the client.</p>
+            <h4><a href="prototype-one/client.html">Prototype-One</a></h4>
+            <p><strong>Arbitrary Data Serverpush</strong> - a simple ws-server: random text data is being pushed to the client.</p>
 
-			</div>
-			<div class="col-md-6">
+            </div>
+            <div class="col-md-6">
 
-				<h4><a href="prototype-two/client.html">Prototype-Two</a></h4>
-				<p><strong>Binary Data Serverpush</strong> - very simple ws-server: random raw data is being pushed to the client</p>
+                <h4><a href="prototype-two/client.html">Prototype-Two</a></h4>
+                <p><strong>Push Notification Server</strong> - a simple socket.io-server: changed data is being pushed to the client.</p>
+            </div>
+        </div>
 
-			</div>
-		</div>
+        <hr>
 
-		<hr>
+        <footer class="footer">
+            <p>2015 - Masterprojekt - TH Köln</p>
+        </footer>
+    </div>
 
-		<footer class="footer">
-			<p>2015 - Masterprojekt - TH Köln</p>
-		</footer>
-	</div>
-
-	<script src="res/js/jquery.min.js"></script>
-	<script src="res/js/bootstrap.min.js"></script>
-	<script src="res/js/metisMenu.min.js"></script>
-	<script src="res/js/sb-admin-2.js"></script>
+    <script src="res/js/jquery.min.js"></script>
+    <script src="res/js/bootstrap.min.js"></script>
+    <script src="res/js/metisMenu.min.js"></script>
+    <script src="res/js/sb-admin-2.js"></script>
 </body>
 </html>
