@@ -9,29 +9,27 @@ var WebSocketServer = require('ws').Server,
 printServerStatus();
 
 setTimeout(function() {
-    
+
     function doSend(data) {
         wss.broadcast(data);
     }
-    
+
     (function loop() {
         var randomTimeout = getRandomTimeout();
         setTimeout(function() {
             doSend( getRandomData() );
-            loop();  
+            loop();
         }, randomTimeout);
     }());
-    
+
 }, 100);
 
 wss.on('connection', function connection(ws) {
 
-    printConnectionData(ws);
     clientCounter += 1;
     updateGauge();
 
     ws.on('close', function() {
-        // console.log('closed connection-' + this._ultron.id);
         clientCounter -= 1;
         updateGauge();
     });
@@ -48,8 +46,8 @@ function printServerStatus() {
     console.log('started server -  listening on localhost:8081');
 }
 
-function printConnectionData(ws) {
-    // console.log('opened connection-' + ws._ultron.id);
+function printConnectionData(ws, occurrence) {
+    console.log(occurrence + ' connection-' + ws._ultron.id);
 }
 
 function updateGauge() {
@@ -59,7 +57,7 @@ function updateGauge() {
 function getRandomData() {
     var text = "";
     var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ";
-    var randomLength = Math.floor(Math.random() * 4000) + 1;  
+    var randomLength = Math.floor(Math.random() * 4000) + 1;
 
     for( var i=0; i < randomLength; i++ )
         text += chars.charAt(Math.floor(Math.random() * chars.length));
