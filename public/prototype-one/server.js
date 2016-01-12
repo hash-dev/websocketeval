@@ -1,6 +1,7 @@
 // Initialize StatsD module
 var StatsD = require('node-statsd'),
-    client = new StatsD();
+    client = new StatsD(),
+    clientCounter = 0;
 
 var WebSocketServer = require('ws').Server,
     wss = new WebSocketServer({ port: 8081 });
@@ -23,19 +24,21 @@ setTimeout(function() {
     
 }, 100);
 
-
 wss.on('connection', function connection(ws) {
-    
+
     printConnectionData(ws);
-    client.increment('client-connection'); // StatsD connection-metric
+    clientCounter += 1;
+    updateGauge();
 
     ws.on('close', function() {
-        console.log('closed connection-' + this._ultron.id);
+        // console.log('closed connection-' + this._ultron.id);
+        clientCounter -= 1;
+        updateGauge();
     });
 });
 
 wss.broadcast = function broadcast(data) {
-    
+
   wss.clients.forEach(function each(client) {
     client.send(data);
   });
@@ -46,7 +49,11 @@ function printServerStatus() {
 }
 
 function printConnectionData(ws) {
-    console.log('opened connection-' + ws._ultron.id);
+    // console.log('opened connection-' + ws._ultron.id);
+}
+
+function updateGauge() {
+    client.gauge('client connections', clientCounter);
 }
 
 function getRandomData() {
