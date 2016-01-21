@@ -4,9 +4,9 @@ var StatsD = require('node-statsd'),
     clientCounter = 0;
 
 var WebSocketServer = require('ws').Server,
-    wss = new WebSocketServer({ port: 8081 });
+    wss = new WebSocketServer({ port: 8082 });
 
-var timeToLive = 90;
+var maxMessageCount = 50;
 
 printServerStatus();
 
@@ -17,11 +17,10 @@ setTimeout(function() {
     }
 
     (function loop() {
-        var randomTimeout = getRandomTimeout();
         setTimeout(function() {
             doSend( getRandomData() );
             loop();
-        }, randomTimeout);
+        }, 500);
     }());
 
 }, 100);
@@ -29,6 +28,7 @@ setTimeout(function() {
 wss.on('connection', function connection(ws) {
 
     clientCounter += 1;
+    ws.messageCount = 0;
     updateGauge();
 
     ws.on('close', function() {
@@ -41,12 +41,13 @@ wss.broadcast = function broadcast(data) {
 
   wss.clients.forEach(function each(client) {
     client.send(data);
+    client.messageCount += 1;
     letLiveOrLetDie(client);
   });
 };
 
 function printServerStatus() {
-    console.log('started server -  listening on localhost:8081');
+    console.log('started ws-server, testcase 2 - listening on port 8082');
 }
 
 function printConnectionData(ws, occurrence) {
@@ -58,10 +59,7 @@ function updateGauge() {
 }
 
 function letLiveOrLetDie(client) {
-    var d = new Date();
-    connectionDuration = parseInt((d.getTime() - client._socket._idleStart) / 1000);
-
-    if(connectionDuration > timeToLive) {
+    if(client.messageCount >= maxMessageCount) {
         client.close();
     }
 }
@@ -75,8 +73,4 @@ function getRandomData() {
         text += chars.charAt(Math.floor(Math.random() * chars.length));
 
     return text;
-}
-
-function getRandomTimeout() {
-    return Math.floor(Math.random() * 10000) + 100;
 }

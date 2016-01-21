@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Holger Harms">
 
-    <title>Prototype One - Arbitrary Data Serverpush | WebSocket Evaluation</title>
+    <title>Prototype One - Testcase 2 - Arbitrary Data Serverpush | WebSocket Evaluation</title>
 
     <link href="res/css/bootstrap.min.css" rel="stylesheet">
     <link href="res/css/metisMenu.min.css" rel="stylesheet">
@@ -28,7 +28,8 @@
             <nav>
                 <ul class="nav nav-pills pull-right">
                     <li role="presentation"><a href="../index.html">Home</a></li>
-                    <li role="presentation"><a href="../prototype-one/client.html">Prototype-One</a></li>
+                    <li role="presentation"><a href="../prototype-one-case1/client.html">Prototype-One - Testcase 1</a></li>
+                    <li role="presentation"><a href="../prototype-one-case2/client.html">Prototype-One - Testcase 2</a></li>
                     <li role="presentation"><a href="../prototype-two/client.html">Prototype-Two</a></li>
                 </ul>
             </nav>
@@ -37,8 +38,11 @@
         <hr>
 
         <div class="row narrow">
-            <h1>Prototype One - Arbitrary Data Serverpush</h1>
+            <h1>Prototype One - Testcase 2 - Arbitrary Data Serverpush</h1>
             <p>a simple WS-server: random text data is being pushed to the client.</p>
+            <p>
+                Test-Setup with JMeter: Short-lived but highly active connections. The number of concurrent connections is constant at 500, with 50 messages per connection and no delay between messages. Message size ranged from 1 to 4096 bytes.
+            </p>
         </div>
 
         <div class="row narrow">

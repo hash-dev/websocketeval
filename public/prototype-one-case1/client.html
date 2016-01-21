@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Holger Harms">
 
-    <title>Prototype Two - Push Notification Server | WebSocket Evaluation</title>
+    <title>Prototype One - Testcase 1 - Arbitrary Data Serverpush | WebSocket Evaluation</title>
 
     <link href="res/css/bootstrap.min.css" rel="stylesheet">
     <link href="res/css/metisMenu.min.css" rel="stylesheet">
@@ -38,19 +38,23 @@
         <hr>
 
         <div class="row narrow">
-            <h1>Prototype Two - Push Notification Server</h1>
-            <p>A simple Socket.IO-server: changed data is being pushed to the client.</p>
+            <h1>Prototype One - Testcase 1  - Arbitrary Data Serverpush</h1>
+            <p>a simple WS-server: random text data is being pushed to the client.</p>
+            <p>
+                Test-Setup with JMeter: Long-lived and mostly idle connections. The number of connections varies from 1,000 to 50,000, message size from 10 to 4096 bytes, and the frequency of messages from 0.1 to 10 seconds.
+            </p>
         </div>
 
         <div class="row narrow">
-            <time></time>
-            <div id="container">Changed XML-file data causes Socket.IO-server to update this content.</div>
+            <div id="output">
+                <p id="server-data"></p>
+            </div>
         </div>
 
         <hr>
 
         <footer class="footer">
-            <p>2015 - Masterprojekt - TH Köln</p>
+                <p>2015 - Masterprojekt - TH Köln</p>
         </footer>
     </div>
 
@@ -58,9 +62,6 @@
     <script src="res/js/bootstrap.min.js"></script>
     <script src="res/js/metisMenu.min.js"></script>
     <script src="res/js/sb-admin-2.js"></script>
-    <script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
     <script src="client.js"></script>
 </body>
 </html>
-
-
