@@ -6,6 +6,8 @@ var StatsD = require('node-statsd'),
 var WebSocketServer = require('ws').Server,
     wss = new WebSocketServer({ port: 8081 });
 
+var timeToLive = 90;
+
 printServerStatus();
 
 setTimeout(function() {
@@ -39,6 +41,7 @@ wss.broadcast = function broadcast(data) {
 
   wss.clients.forEach(function each(client) {
     client.send(data);
+    letLiveOrLetDie(client);
   });
 };
 
@@ -52,6 +55,15 @@ function printConnectionData(ws, occurrence) {
 
 function updateGauge() {
     client.gauge('client connections', clientCounter);
+}
+
+function letLiveOrLetDie(client) {
+    var d = new Date();
+    connectionDuration = parseInt((d.getTime() - client._socket._idleStart) / 1000);
+
+    if(connectionDuration > timeToLive) {
+        client.close();
+    }
 }
 
 function getRandomData() {
