@@ -1,13 +1,13 @@
 // Initialize StatsD module
 var StatsD = require('node-statsd'),
-    client = new StatsD(),
-    clientCounter = 0;
+client = new StatsD(),
+clientCounter = 0;
 
 var WebSocketServer = require('ws').Server,
-    wss = new WebSocketServer({ port: 8082 });
+wss = new WebSocketServer({ port: 8082 });
 
 var maxMessageCount = 50,
-    messageCount = 0;
+messageCount = 0;
 
 printServerStatus();
 
@@ -19,17 +19,17 @@ setTimeout(function() {
 
     (function loop() {
         setTimeout(function() {
-	    messageCount += 1;
+           messageCount += 1;
 
-	    if(messageCount >= maxMessageCount) {
-                doSend( "timeToGo" );
-		messageCount = 0;
-	    } else {
-		doSend( getRandomData() );
-	    }
+           if(messageCount >= maxMessageCount) {
+            doSend( "timeToGo" );
+            messageCount = 0;
+        } else {
+          doSend( getRandomData() );
+      }
 
-            loop();
-        }, 500);
+      loop();
+  }, 500);
     }());
 
 }, 100);
@@ -37,8 +37,8 @@ setTimeout(function() {
 wss.on('connection', function connection(ws) {
 
     ws.on('message', function incoming(message) {
-	console.log('received: %s', message);
-    });
+       console.log('received: %s', message);
+   });
 
     clientCounter += 1;
     updateGauge();
@@ -52,7 +52,10 @@ wss.on('connection', function connection(ws) {
 wss.broadcast = function broadcast(data) {
 
   wss.clients.forEach(function each(client) {
-    client.send(data);
+    // Do not send, if client is not open
+    if(client.readyState == 1) {
+        client.send(data);
+    }
   });
 };
 
