@@ -1,52 +1,82 @@
+const cluster = require('cluster');
+const numCPUs = require('os').cpus().length;
+console.log("numCPUs: " + numCPUs);
+
 // Initialize StatsD module
 var StatsD = require('node-statsd'),
-    client = new StatsD(),
-    clientCounter = 0;
+client = new StatsD(),
+clientCounter = 0;
 
-var WebSocketServer = require('ws').Server,
-    wss = new WebSocketServer({ port: 8081 });
+var WebSocketServer = require('ws').Server;
 
-var timeToLive = 90;
+if (cluster.isMaster) {
+  // Fork workers.
+  for (var i = 0; i < numCPUs; i++) {
+    cluster.fork();
+    console.log("forking");
+}
 
-printServerStatus();
-
-setTimeout(function() {
-
-    function doSend(data) {
-        wss.broadcast(data);
-    }
-
-    (function loop() {
-        var randomTimeout = getRandomTimeout();
-        setTimeout(function() {
-            doSend( getRandomData() );
-            loop();
-        }, randomTimeout);
-    }());
-
-}, 100);
-
-wss.on('connection', function connection(ws) {
-
-    clientCounter += 1;
-    updateGauge();
-
-    ws.on('close', function() {
-        clientCounter -= 1;
-        updateGauge();
-    });
+cluster.on('exit', function(worker, code, signal) {
+    console.log('worker ${worker.process.pid} died');
 });
 
-wss.broadcast = function broadcast(data) {
+cluster.on('message', function(worker, message) {
+    console.log('worker ${worker.process.pid} received data: ${message}');
+})
+} else if (cluster.isWorker) {
 
-  wss.clients.forEach(function each(client) {
-    client.send(data);
-    letLiveOrLetDie(client);
-  });
-};
+    var wss = new WebSocketServer({ port: 8081 });
 
-function printServerStatus() {
-    console.log('started ws-server, testcase 1 - listening on port 8081');
+    var timeToLive = 90;
+
+    printServerStatus(cluster);
+
+    setTimeout(function() {
+
+        function doSend(data) {
+            wss.broadcast(data);
+        }
+
+        (function loop() {
+            var randomTimeout = getRandomTimeout();
+            setTimeout(function() {
+                doSend( getRandomData() );
+                loop();
+            }, randomTimeout);
+        }());
+
+    }, 100);
+
+    wss.on('connection', function connection(ws) {
+
+        clientCounter += 1;
+        updateGauge();
+
+        ws.on('message', function(msg) {
+            console.log("received: " + msg);
+        })
+
+        ws.on('close', function() {
+            clientCounter -= 1;
+            updateGauge();
+        });
+    });
+
+    wss.broadcast = function broadcast(data) {
+
+      wss.clients.forEach(function each(client) {
+        // Do not send, if client is not open
+        if(client.readyState == 1) {
+            client.send(data);
+            letLiveOrLetDie(client);
+        }
+    });
+  };
+}
+
+function printServerStatus(cluster) {
+    console.log('Started ws-server, testcase 1 - listening on port 8081');
+    console.log('Worker-ID: ' + cluster.worker.id);
 }
 
 function printConnectionData(ws, occurrence) {

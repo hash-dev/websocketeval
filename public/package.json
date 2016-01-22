@@ -6,16 +6,17 @@
   "dependencies": {
     "binaryjs": "0.2.1",
     "bower": "1.6.3",
+    "cluster": "0.7.7",
     "express": "4.13.3",
     "fs": "0.0.2",
     "grunt": "0.4.5",
     "grunt-contrib-sass": "0.9.2",
     "grunt-contrib-watch": "0.6.1",
     "http": "0.0.0",
+    "node-statsd": "0.1.1",
     "socket.io": "1.3.7",
     "ws": "0.8.0",
-    "xml2json": "0.9.0",
-    "node-statsd": "0.1.1"
+    "xml2json": "0.9.0"
   },
   "devDependencies": {},
   "scripts": {
