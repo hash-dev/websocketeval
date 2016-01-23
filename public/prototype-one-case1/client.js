@@ -9,10 +9,18 @@ function init() {
 
 function testWebSocket() {
     websocket = new WebSocket(wsUri);
-    websocket.onopen = function(evt) { onOpen(evt); };
-    websocket.onclose = function(evt) { onClose(evt); };
-    websocket.onmessage = function(evt) { onMessage(evt); };
-    websocket.onerror = function(evt) { onError(evt); };
+    websocket.onopen = function(evt) {
+        onOpen(evt);
+    };
+    websocket.onclose = function(evt) {
+        onClose(evt);
+    };
+    websocket.onmessage = function(evt) {
+        onMessage(evt);
+    };
+    websocket.onerror = function(evt) {
+        onError(evt);
+    };
 }
 
 function onOpen(evt) {
@@ -24,7 +32,7 @@ function onClose(evt) {
 }
 
 function onMessage(evt) {
-    writeMessage('<span style="color: blue;">Server Data: ' + evt.data+'</span>');
+    writeMessage('<span style="color: blue;">Server Data: ' + evt.data + '</span>');
 }
 
 function onError(evt) {

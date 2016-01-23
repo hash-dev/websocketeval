@@ -8,7 +8,7 @@ console.log(location.host);
 var socket = io.connect('http://' + location.host + ':8080');
 
 // on every message received print the new data inside #container
-socket.on('notification', function (data) {
+socket.on('notification', function(data) {
     // convert the json string into a valid javascript object
     var _data = JSON.parse(data);
 

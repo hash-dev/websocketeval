@@ -4,28 +4,30 @@ console.log("numCPUs: " + numCPUs);
 
 // Initialize StatsD module
 var StatsD = require('node-statsd'),
-client = new StatsD(),
-clientCounter = 0;
+    client = new StatsD(),
+    clientCounter = 0;
 
 var WebSocketServer = require('ws').Server;
 
 if (cluster.isMaster) {
-  // Fork workers.
-  for (var i = 0; i < numCPUs; i++) {
-    cluster.fork();
-    console.log("forking");
-}
+    // Fork workers.
+    for (var i = 0; i < numCPUs; i++) {
+        cluster.fork();
+        console.log("forking");
+    }
 
-cluster.on('exit', function(worker, code, signal) {
-    console.log('worker ${worker.process.pid} died');
-});
+    cluster.on('exit', function(worker, code, signal) {
+        console.log('worker ${worker.process.pid} died');
+    });
 
-cluster.on('message', function(worker, message) {
-    console.log('worker ${worker.process.pid} received data: ${message}');
-})
+    cluster.on('message', function(worker, message) {
+        console.log('worker ${worker.process.pid} received data: ${message}');
+    })
 } else if (cluster.isWorker) {
 
-    var wss = new WebSocketServer({ port: 8081 });
+    var wss = new WebSocketServer({
+        port: 8081
+    });
 
     var timeToLive = 90;
 
@@ -40,7 +42,7 @@ cluster.on('message', function(worker, message) {
         (function loop() {
             var randomTimeout = getRandomTimeout();
             setTimeout(function() {
-                doSend( getRandomData() );
+                doSend(getRandomData());
                 loop();
             }, randomTimeout);
         }());
@@ -64,14 +66,14 @@ cluster.on('message', function(worker, message) {
 
     wss.broadcast = function broadcast(data) {
 
-      wss.clients.forEach(function each(client) {
-        // Do not send, if client is not open
-        if(client.readyState == 1) {
-            client.send(data);
-            letLiveOrLetDie(client);
-        }
-    });
-  };
+        wss.clients.forEach(function each(client) {
+            // Do not send, if client is not open
+            if (client.readyState == 1) {
+                client.send(data);
+                letLiveOrLetDie(client);
+            }
+        });
+    };
 }
 
 function printServerStatus(cluster) {
@@ -91,7 +93,7 @@ function letLiveOrLetDie(client) {
     var d = new Date();
     connectionDuration = parseInt((d.getTime() - client._socket._idleStart) / 1000);
 
-    if(connectionDuration > timeToLive) {
+    if (connectionDuration > timeToLive) {
         client.close();
     }
 }
@@ -101,7 +103,7 @@ function getRandomData() {
     var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ";
     var randomLength = Math.floor(Math.random() * 4000) + 1;
 
-    for( var i=0; i < randomLength; i++ )
+    for (var i = 0; i < randomLength; i++)
         text += chars.charAt(Math.floor(Math.random() * chars.length));
 
     return text;
