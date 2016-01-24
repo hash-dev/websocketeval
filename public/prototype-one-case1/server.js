@@ -22,9 +22,8 @@ if (cluster.isMaster) {
 
     cluster.on('message', function(worker, message) {
         console.log('worker ${worker.process.pid} received data: ${message}');
-    })
+    });
 } else if (cluster.isWorker) {
-
     var wss = new WebSocketServer({
         port: 8081
     });
@@ -56,7 +55,7 @@ if (cluster.isMaster) {
 
         ws.on('message', function(msg) {
             console.log("received: " + msg);
-        })
+        });
 
         ws.on('close', function() {
             clientCounter -= 1;
