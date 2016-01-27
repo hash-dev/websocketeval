@@ -27,11 +27,11 @@
       </ThreadGroup>
       <hashTree>
         <RunTime guiclass="RunTimeGui" testclass="RunTime" testname="Runtime Controller" enabled="true">
-          <stringProp name="RunTime.seconds">300</stringProp>
+          <stringProp name="RunTime.seconds">120</stringProp>
         </RunTime>
         <hashTree>
           <JMeter.plugins.functional.samplers.websocket.WebSocketSampler guiclass="JMeter.plugins.functional.samplers.websocket.WebSocketSamplerGui" testclass="JMeter.plugins.functional.samplers.websocket.WebSocketSampler" testname="WebSocketEval - Prototype1 - Testcase2" enabled="true">
-            <stringProp name="serverAddress">localhost</stringProp>
+            <stringProp name="serverAddress">52.28.34.120</stringProp>
             <stringProp name="serverPort">8082</stringProp>
             <stringProp name="implementation">RFC6455 (v13)</stringProp>
             <stringProp name="protocol">ws</stringProp>
