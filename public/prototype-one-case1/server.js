@@ -1,36 +1,30 @@
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
-console.log("numCPUs: " + numCPUs);
+var cluster = require('cluster'); // required if worker id is needed
+var sticky = require('sticky-session');
 
-// Initialize StatsD module
 var StatsD = require('node-statsd'),
     client = new StatsD(),
     clientCounter = 0;
 
-var WebSocketServer = require('ws').Server;
+var server = require('http').createServer(function(req, res) {
+  res.end('worker: ' + cluster.worker.id);
+});
 
-if (cluster.isMaster) {
-    // Fork workers.
-    for (var i = 0; i < numCPUs; i++) {
-        cluster.fork();
-        console.log("forking");
-    }
+if (!sticky.listen(server, 3000)) {
 
-    cluster.on('exit', function(worker, code, signal) {
-        console.log('worker ${worker.process.pid} died');
+    server.once('listening', function() {
+        console.log('Started sticky server listening to port 3000');
     });
+} else {
 
-    cluster.on('message', function(worker, message) {
-        console.log('worker ${worker.process.pid} received data: ${message}');
-    });
-} else if (cluster.isWorker) {
+    var WebSocketServer = require('ws').Server;
     var wss = new WebSocketServer({
         port: 8081
     });
+    var serverId = cluster.worker.id;
 
     var timeToLive = 90;
 
-    printServerStatus(cluster);
+    printServerStatus();
 
     setTimeout(function() {
 
@@ -51,7 +45,7 @@ if (cluster.isMaster) {
     wss.on('connection', function connection(ws) {
 
         clientCounter += 1;
-        updateGauge();
+        updateGauge(serverId);
 
         ws.on('message', function(msg) {
             console.log("received: " + msg);
@@ -59,7 +53,7 @@ if (cluster.isMaster) {
 
         ws.on('close', function() {
             clientCounter -= 1;
-            updateGauge();
+            updateGauge(serverId);
         });
     });
 
@@ -75,17 +69,16 @@ if (cluster.isMaster) {
     };
 }
 
-function printServerStatus(cluster) {
+function printServerStatus() {
     console.log('Started ws-server, testcase 1 - listening on port 8081');
-    console.log('Worker-ID: ' + cluster.worker.id);
 }
 
 function printConnectionData(ws, occurrence) {
     console.log(occurrence + ' connection-' + ws._ultron.id);
 }
 
-function updateGauge() {
-    client.gauge('client connections', clientCounter);
+function updateGauge(serverId) {
+    client.gauge('client connections-' + serverId, clientCounter);
 }
 
 function letLiveOrLetDie(client) {
