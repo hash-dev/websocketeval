@@ -13,12 +13,12 @@
     <hashTree>
       <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="jp@gc - Ultimate Thread Group" enabled="true">
         <collectionProp name="ultimatethreadgroupdata">
-          <collectionProp name="-1656573274">
-            <stringProp name="50424245">500</stringProp>
+          <collectionProp name="-2114746607">
+            <stringProp name="1626587">5000</stringProp>
             <stringProp name="0">0</stringProp>
-            <stringProp name="48687">120</stringProp>
-            <stringProp name="50547">300</stringProp>
-            <stringProp name="1567">10</stringProp>
+            <stringProp name="1722">60</stringProp>
+            <stringProp name="48873">180</stringProp>
+            <stringProp name="1722">60</stringProp>
           </collectionProp>
         </collectionProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Schleifen-Controller (Loop Controller)" enabled="true">
@@ -41,52 +41,19 @@
           <boolProp name="ignoreSslErrors">false</boolProp>
           <boolProp name="streamingConnection">true</boolProp>
           <stringProp name="connectionId"></stringProp>
-          <stringProp name="responsePattern"></stringProp>
-          <stringProp name="closeConncectionPattern"></stringProp>
+          <stringProp name="responsePattern">stayAlive</stringProp>
+          <stringProp name="closeConncectionPattern">timeToGo</stringProp>
           <stringProp name="proxyAddress"></stringProp>
           <stringProp name="proxyPassword"></stringProp>
           <stringProp name="proxyPort"></stringProp>
           <stringProp name="proxyUsername"></stringProp>
-          <stringProp name="messageBacklog">3</stringProp>
+          <stringProp name="messageBacklog">50</stringProp>
           <elementProp name="queryStringParameters" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Benutzer definierte Variablen" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
         </JMeter.plugins.functional.samplers.websocket.WebSocketSampler>
         <hashTree/>
       </hashTree>
-      <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer" enabled="true">
-        <boolProp name="ResultCollector.error_logging">false</boolProp>
-        <objProp>
-          <name>saveConfig</name>
-          <value class="SampleSaveConfiguration">
-            <time>true</time>
-            <latency>true</latency>
-            <timestamp>true</timestamp>
-            <success>true</success>
-            <label>true</label>
-            <code>true</code>
-            <message>true</message>
-            <threadName>true</threadName>
-            <dataType>true</dataType>
-            <encoding>false</encoding>
-            <assertions>true</assertions>
-            <subresults>true</subresults>
-            <responseData>false</responseData>
-            <samplerData>false</samplerData>
-            <xml>false</xml>
-            <fieldNames>false</fieldNames>
-            <responseHeaders>false</responseHeaders>
-            <requestHeaders>false</requestHeaders>
-            <responseDataOnError>false</responseDataOnError>
-            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
-            <assertionsResultsToSave>0</assertionsResultsToSave>
-            <bytes>true</bytes>
-            <threadCounts>true</threadCounts>
-          </value>
-        </objProp>
-        <stringProp name="filename">${__P(results_file)}</stringProp>
-      </ResultCollector>
-      <hashTree/>
     </hashTree>
   </hashTree>
 </jmeterTestPlan>
