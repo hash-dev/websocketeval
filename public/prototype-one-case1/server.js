@@ -6,7 +6,7 @@ var StatsD = require('node-statsd'),
     clientCounter = 0;
 
 var server = require('http').createServer(function(req, res) {
-  res.end('worker: ' + cluster.worker.id);
+    res.end('worker: ' + cluster.worker.id);
 });
 
 if (!sticky.listen(server, 3000)) {
@@ -22,7 +22,7 @@ if (!sticky.listen(server, 3000)) {
     });
     var serverId = cluster.worker.id;
 
-    var timeToLive = 90;
+    var timeToLive = 180;
 
     printServerStatus();
 
@@ -86,7 +86,7 @@ function letLiveOrLetDie(client) {
     connectionDuration = parseInt((d.getTime() - client._socket._idleStart) / 1000);
 
     if (connectionDuration > timeToLive) {
-        client.close();
+        client.send("timeToGo");
     }
 }
 
