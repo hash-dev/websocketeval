@@ -22,14 +22,6 @@
 <body>
     <div class="container">
         <div class="header clearfix">
-            <nav>
-                <ul class="nav nav-pills pull-right">
-                    <li role="presentation"><a href="index.html">Home</a></li>
-                    <li role="presentation"><a href="prototype-one-case1/client.html">Prototype-One - Testcase 1</a></li>
-                    <li role="presentation"><a href="prototype-one-case2/client.html">Prototype-One - Testcase 2</a></li>
-                    <li role="presentation"><a href="prototype-two/client.html">Prototype-Two</a></li>
-                </ul>
-            </nav>
             <h3 class="text-muted">Masterprojekt - Realtime Web-Communication</h3>
         </div>
         <hr>
@@ -40,24 +32,44 @@
             </p>
         </div>
         <div class="row marketing">
-            <div class="col-md-4">
-                <h4><a href="prototype-one-case1/client.html">Prototype-One - Testcase 1</a></h4>
+            <div class="col-md-12">
+                <h4>Prototype-One - Testcase 1</h4>
                 <p><strong>Arbitrary Data Serverpush</strong> - a simple ws-server: random text data is being pushed to the client.</p>
                 <p>
                     Test-Setup with JMeter: Long-lived and mostly idle connections. The number of connections varies from 1,000 to 50,000, message size from 10 to 4096 bytes, and the frequency of messages from 0.1 to 10 seconds.
                 </p>
             </div>
-            <div class="col-md-4">
-                <h4><a href="prototype-one-case2/client.html">Prototype-One - Testcase 2</a></h4>
+            <div class="row narrow">
+                <div id="output1">
+                    <p id="server-data1"></p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row marketing">
+            <div class="col-md-12">
+                <h4>Prototype-One - Testcase 2</h4>
                 <p><strong>Arbitrary Data Serverpush</strong> - a simple ws-server: random text data is being pushed to the client.</p>
                 <p>
                     Test-Setup with JMeter: Short-lived but highly active connections. The number of concurrent connections is constant at 500, with 50 messages per connection and no delay between messages. Message size ranged from 1 to 4096 bytes.
                 </p>
             </div>
-            <div class="col-md-4">
-                <h4><a href="prototype-two/client.html">Prototype-Two</a></h4>
+            <div class="row narrow">
+                <div id="output2">
+                    <p id="server-data2"></p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row marketing">
+            <div class="col-md-12">
+                <h4>Prototype-Two</h4>
                 <p><strong>Push Notification Server</strong> - a simple socket.io-server: changed data is being pushed to the client.</p>
             </div>
+            <div class="row narrow">
+                <time style="margin-left: 30px;"></time>
+                <div id="container" style="margin-left:30px;">Changed XML-file data causes Socket.IO-server to update this content.</div>
+        </div>
         </div>
         <hr>
         <footer class="footer">
@@ -68,6 +80,10 @@
     <script src="res/js/bootstrap.min.js"></script>
     <script src="res/js/metisMenu.min.js"></script>
     <script src="res/js/sb-admin-2.js"></script>
+    <script src="prototype-one-case1/client.js"></script>
+    <script src="prototype-one-case2/client.js"></script>
+    <script src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
+    <script src="prototype-two/client.js"></script>
 </body>
 
 </html>

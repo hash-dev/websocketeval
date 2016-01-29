@@ -4,17 +4,16 @@ var app = require('http').createServer(handler),
     fs = require('fs');
 
 // create server
-app.listen(8080);
+app.listen(8083);
+console.log('started socket.io-server - listening on port 8083');
 
-console.log('started server -  listening on localhost:8080');
-
-// on server start load client.html
+// on server start load client-html script
 function handler(req, res) {
-    fs.readFile(__dirname + 'client.html', function(err, data) {
+    fs.readFile(__dirname + '/../index.html', function(err, data) {
         if (err) {
             console.log(err);
             res.writeHead(500);
-            return res.end('Error loading client.html');
+            return res.end('Error loading index.html');
         }
         res.writeHead(200);
         res.end(data);
@@ -23,7 +22,6 @@ function handler(req, res) {
 
 // creating a new websocket-connection to keep the content updated without any AJAX request
 io.sockets.on('connection', function(socket) {
-    console.log(__dirname);
 
     //watching the xml file
     fs.watchFile(__dirname + '/example.xml', {
@@ -32,11 +30,12 @@ io.sockets.on('connection', function(socket) {
     }, function(curr, prev) {
         // on file change read the new xml
         fs.readFile(__dirname + '/example.xml', function(err, data) {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
 
-            // parsing the new xml data and converting it into json file
             var json = parser.toJson(data);
-            // send the new data to the client
+            // send data to client
             socket.volatile.emit('notification', json);
         });
     });

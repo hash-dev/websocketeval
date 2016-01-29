@@ -1,58 +1,62 @@
-var host = 'localhost';
-var wsUri = 'ws://' + host + ':8081';
-var output;
+(function() {
 
-function init() {
-    output = document.getElementById('output');
-    testWebSocket();
-}
+    var host = 'localhost';
+    var wsUri = 'ws://' + host + ':8081';
+    var output;
 
-function testWebSocket() {
-    websocket = new WebSocket(wsUri);
-    websocket.onopen = function(evt) {
-        onOpen(evt);
-    };
-    websocket.onclose = function(evt) {
-        onClose(evt);
-    };
-    websocket.onmessage = function(evt) {
-        onMessage(evt);
-    };
-    websocket.onerror = function(evt) {
-        onError(evt);
-    };
-}
+    function init() {
+        output = document.getElementById('output1');
+        testWebSocket();
+    }
 
-function onOpen(evt) {
-    writeToScreen('SERVER CONNECTION ESTABLISHED');
-}
+    function testWebSocket() {
+        websocket = new WebSocket(wsUri);
+        websocket.onopen = function(evt) {
+            onOpen(evt);
+        };
+        websocket.onclose = function(evt) {
+            onClose(evt);
+        };
+        websocket.onmessage = function(evt) {
+            onMessage(evt);
+        };
+        websocket.onerror = function(evt) {
+            onError(evt);
+        };
+    }
 
-function onClose(evt) {
-    writeToScreen('SERVER CONNECTION SEPARATED');
-}
+    function onOpen(evt) {
+        writeToScreen('<span style="margin-left: 30px;">SERVER CONNECTION ESTABLISHED</span>');
+    }
 
-function onMessage(evt) {
-    writeMessage('<span style="color: blue;">Server Data: ' + evt.data + '</span>');
-}
+    function onClose(evt) {
+        writeToScreen('<span style="margin-left: 30px;">SERVER CONNECTION SEPARATED</span>');
+    }
 
-function onError(evt) {
-    writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
-}
+    function onMessage(evt) {
+        writeMessage('<span style="color: blue; margin-left: 30px; display: block;">Server Data: ' + evt.data + '</span>');
+    }
 
-function writeToScreen(message) {
-    var pre = document.createElement('p');
-    pre.style.wordWrap = 'break-word';
-    pre.innerHTML = message;
-    output.appendChild(pre);
-}
+    function onError(evt) {
+        writeToScreen('<span style="color: red; margin-left: 30px;">ERROR:</span> ' + evt.data);
+    }
 
-function writeMessage(message) {
-    var pre = document.createElement('p');
-    pre.setAttribute('id', 'server-data');
-    var oldPre = document.getElementById('server-data');
-    pre.style.wordWrap = 'break-word';
-    pre.innerHTML = message;
-    output.replaceChild(pre, oldPre);
-}
+    function writeToScreen(message) {
+        var pre = document.createElement('p');
+        pre.style.wordWrap = 'break-word';
+        pre.innerHTML = message;
+        output.appendChild(pre);
+    }
 
-window.addEventListener('load', init, false);
+    function writeMessage(message) {
+        var pre = document.createElement('p');
+        pre.setAttribute('id', 'server-data1');
+        var oldPre = document.getElementById('server-data1');
+        pre.style.wordWrap = 'break-word';
+        pre.innerHTML = message;
+        output.replaceChild(pre, oldPre);
+    }
+
+    window.addEventListener('load', init, false);
+
+})();

@@ -46,6 +46,7 @@ if (!sticky.listen(server, 3000)) {
 
         clientCounter += 1;
         updateGauge(serverId);
+        ws.connectionStart = new Date().getTime();
 
         ws.on('message', function(msg) {
             console.log("received: " + msg);
@@ -83,7 +84,7 @@ function updateGauge(serverId) {
 
 function letLiveOrLetDie(client) {
     var d = new Date();
-    connectionDuration = parseInt((d.getTime() - client._socket._idleStart) / 1000);
+    connectionDuration = parseInt((d.getTime() - client.connectionStart)/1000);
 
     if (connectionDuration > timeToLive) {
         client.send("timeToGo");
