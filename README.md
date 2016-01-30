@@ -1,12 +1,14 @@
 # websocketeval
 
-This project includes a Dockerfile for building the related image and src-files for the websocket-evaluation prototypes. You don't necessarily need to run the docker container and can use the prototypes as stand-alone.
+This project includes small websocket prototypes aimed to examine the capacity, performance and limits of the WebSocket protocol. 
 
-So far there is the 'prototype-one' which simply pushes information to all connected clients, if the data in the example.xml has changed. A php-script changes the xml-file every second as long as it is running.
+The lib-folder contains the prototypes including server- and potential client-js files, which can be used for an HTML client stub.
+
+The tesplans-folder contains JMeter testplans for the prototype's relating testcases.
 
 ## Prerequisites
 
-* npm (and docker, if you want to use it) installed globally
+* npm
 
 ## Usage
 
@@ -18,29 +20,20 @@ So far there is the 'prototype-one' which simply pushes information to all conne
 npm install
 ```
 
-* After the installation of the dependencies, install the bower-dependencies - which in this case is bootstrap-template:
+## Prototypes
 
-```
-bower install
-```
+### Prototype-One 
 
-* Build the docker-image:
+Arbitrary Data Serverpush - a simple ws-server: random text data is being pushed to the client.
 
-```
-docker build -t imageprefix/imagesuffix:tag path/to/Dockerfile
-```
+#### Testcase 1
 
-* After the build run the container:
+JMeter-Testplan: Long-lived and mostly idle connections. The number of connections varies from 1,000 to 50,000, message size from 10 to 4096 bytes, and the frequency of messages from 0.1 to 10 seconds. 
 
-```
-docker run -d -p 8080:8080 -v $PWD:/root imageprefix/imagesuffix:tag
-```
+#### Testcase 2
 
-* The container is now running in detached mode (in the background) and the ws-server is already running
-* Also start the php-script for simulating the changing data (get the container-name via the command "docker ps"):
+JMeter-Testplan: Short-lived but highly active connections. The number of concurrent connections is constant at 500, with 50 messages per connection and no delay between messages. Message size ranged from 1 to 4096 bytes.
 
-```
-docker exec -d container-name php /root/prototype-one/changeFile.php
-```
+### Prototype-Two
 
-* In your browser open the file "prototype-one/client.html" and you should see data updates every second
+Push Notification Server - a simple socket.io-server: changed data is being pushed to the client. Folder also includes a small js-script that automatically changes the xml-file every second.
