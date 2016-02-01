@@ -2,7 +2,6 @@
 .git/*
 lib/.bash_history
 lib/index.html
-lib/Gruntfile.js
 lib/bower.json
 lib/res
 lib/res/*
