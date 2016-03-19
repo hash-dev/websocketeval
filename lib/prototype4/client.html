@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Node MP4 Streamer</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <video width="320" height="240" controls>
+    </video>
+    <script>
+    if ('MediaSource' in window && MediaSource.isTypeSupported('video/mp4; codecs="avc1.64001F"')) {
+        console.log('MediaSource and codec is supported');
+    }
+
+    window.MediaSource = window.MediaSource || window.WebKitMediaSource;
+    var mediaSource = new MediaSource(),
+        video = document.querySelector('video'),
+        codecs = 'video/webm; codecs="vorbis,vp8"',
+        videoType = 'video/webm';
+    video.src = window.URL.createObjectURL(mediaSource);
+
+    mediaSource.addEventListener('sourceopen', callback, false);
+    mediaSource.addEventListener('webkitsourceopen', callback, false);
+    mediaSource.addEventListener('sourceended', function(e) {
+        logger.log('mediaSource readyState: ' + this.readyState);
+    }, false);
+
+    var chunks = [];
+    var sourceBuffer;
+    var counter = 200;
+
+    function callback(e)
+    {
+        var ws = new WebSocket("ws://localhost:8080");
+        ws.binaryType = 'arraybuffer';
+        console.log('readystate: '+mediaSource.readyState);
+        sourceBuffer = mediaSource.addSourceBuffer(codecs);
+
+        ws.onmessage = function(evt) {
+            /*
+            console.log(evt.data.byteLength);
+            console.log(new Uint8Array(evt.data));
+            */
+            chunks.push(new Uint8Array(evt.data));
+            console.log('chunk-länge in ws onmessage: '+chunks.length);
+
+            while(chunks.length > 0 || counter > 0) {
+                fillSourceBuffer();
+                counter--;
+            }
+
+        };
+
+        ws.onclose = function() {
+            console.log("Connection is closed...");
+        };
+        //sourceBuffer = ms.addSourceBuffer('video/mp4; codecs="avc1.64001F"');
+        //sourceBuffer = ms.addSourceBuffer('video/mp4; codecs="aac,h264"');
+    }
+
+    function fillSourceBuffer() {
+        // video.webkitSourceAppend(new Uint8Array(evt.data));
+            console.log('chunk-länge am Anfang von fillSourceBuffer: '+chunks.length);
+            if(!sourceBuffer.updating) {
+                if (chunks.length === 0) {
+                    mediaSource.endOfStream();
+                } else {
+                    sourceBuffer.appendBuffer(chunks.shift());
+                    console.log(chunks.length);
+                    if(chunks.length > 0) {
+                        fillSourceBuffer();
+                    }
+                    if (video.paused) {
+                        video.play();
+                    }
+                }
+            }
+    }
+
+    function onError(e) {
+        console.log("Error: " + e);
+    }
+    </script>
+</body>
+
+</html>
