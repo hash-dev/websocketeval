@@ -37,3 +37,7 @@ JMeter-Testplan: Short-lived but highly active connections. The number of concur
 ### Prototype-Two
 
 Push Notification Server - a simple socket.io-server: changed data is being pushed to the client. Folder also includes a small js-script that automatically changes the xml-file every second.
+
+### Prototype-Three
+
+Video-Stream Server over WebSocket - video is being played on the client side with help by the MediaSource-Plugin provided by the browser (not yet fully functioning).
