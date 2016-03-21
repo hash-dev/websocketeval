@@ -11,3 +11,5 @@ lib/bower_components
 lib/bower_components/*
 lib/.sass-cache
 lib/.sass-cache/*
+lib/prototype3/out.mp4
+lib/prototype3/out_dashinit.mp4

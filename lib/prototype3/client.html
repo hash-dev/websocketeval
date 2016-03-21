@@ -8,50 +8,41 @@
 
 <body>
     <h1>Video Stream with WebSockets and MediaSource Plugin</h1>
-    <video width="320" height="240" controls>
+    <video width="640" height="480" controls>
     </video>
     <script>
-    if ('MediaSource' in window && MediaSource.isTypeSupported('video/mp4; codecs="avc1.64001F"')) {
-        console.log('MediaSource and codec is supported');
+    if ('MediaSource' in window && MediaSource.isTypeSupported('video/mp4; codecs="avc1.64001F"'))
+    {
+        window.MediaSource = window.MediaSource || window.WebKitMediaSource;
+
+        // supported codecs: 'video/mp4; codecs="avc1.64001F"' / 'video/mp4; codecs="aac,h264"' / 'video/webm; codecs="vorbis,vp8"'
+        var mediaSource = new MediaSource(),
+            sourceBuffer,
+            chunks = [],
+            video = document.querySelector('video'),
+            codecs = 'video/mp4; codecs="avc1.64001F"';
+        video.src = window.URL.createObjectURL(mediaSource);
+
+        mediaSource.addEventListener('sourceopen', sourceOpenCallback, false);
+        mediaSource.addEventListener('webkitsourceopen', sourceOpenCallback, false);
+        mediaSource.addEventListener('sourceended', sourceEndedCallback , false);
+        mediaSource.addEventListener('webkitsourceended', sourceEndedCallback , false);
+        mediaSource.addEventListener('sourceclose', sourceEndedCallback , false);
+        mediaSource.addEventListener('webkitsourceclose', sourceEndedCallback , false);
     }
 
-    window.MediaSource = window.MediaSource || window.WebKitMediaSource;
-    var mediaSource = new MediaSource(),
-        video = document.querySelector('video'),
-        codecs = 'video/webm; codecs="vorbis,vp8"',
-        videoType = 'video/webm'; // other codecs: 'video/mp4; codecs="avc1.64001F"' / 'video/mp4; codecs="aac,h264"'
-    video.src = window.URL.createObjectURL(mediaSource);
-
-    mediaSource.addEventListener('sourceopen', callback, false);
-    mediaSource.addEventListener('webkitsourceopen', callback, false);
-    mediaSource.addEventListener('sourceended', function(e) {
-        logger.log('mediaSource readyState: ' + this.readyState);
-    }, false);
-
-    var chunks = [],
-        sourceBuffer,
-        counter = 200;
-
-    function callback(e) {
+    function sourceOpenCallback(e)
+    {
         var ws = new WebSocket("ws://localhost:8080");
         ws.binaryType = 'arraybuffer';
-        console.log('readystate: ' + mediaSource.readyState);
         sourceBuffer = mediaSource.addSourceBuffer(codecs);
+        addSourceBufferEvents();
 
-        ws.onmessage = function(evt) {
-            /*
-            console.log(evt.data.byteLength);
-            console.log(new Uint8Array(evt.data));
-            */
+        ws.onmessage = function(evt)
+        {
+            // logOnMessageData(evt.data.byteLength);
             chunks.push(new Uint8Array(evt.data));
-            console.log('chunk-länge in ws onmessage: ' + chunks.length);
-
-            // STILL NOT WORKING!
-            while (chunks.length > 0 || counter > 0) {
-                fillSourceBuffer();
-                counter--;
-            }
-
+            fillSourceBuffer();
         };
 
         ws.onclose = function() {
@@ -59,28 +50,62 @@
         };
     }
 
-    function fillSourceBuffer() {
-
-        console.log('chunk-länge am Anfang von fillSourceBuffer: ' + chunks.length);
-
-        if (!sourceBuffer.updating) {
-            if (chunks.length === 0) {
-                mediaSource.endOfStream();
-            } else {
-                sourceBuffer.appendBuffer(chunks.shift());
-                console.log(chunks.length);
-                if (chunks.length > 0) {
-                    fillSourceBuffer();
-                }
-                if (video.paused) {
-                    video.play();
-                }
-            }
-        }
+    function sourceEndedCallback(e)
+    {
+        console.log('Source ended');
     }
 
-    function onError(e) {
+    function fillSourceBuffer()
+    {
+        if (!sourceBuffer.updating)
+        {
+            // logFillSourceBufferData();
+            chunk = chunks.shift();
+            if (typeof chunk !== 'undefined') {
+                sourceBuffer.appendBuffer(chunk);
+            }
+            if (video.paused) {
+                video.play();
+            }
+        }
+        chunk = null;
+    }
+
+    function addSourceBufferEvents()
+    {
+        sourceBuffer.addEventListener('updatestart',         logUpdatingState('start') , false);
+        sourceBuffer.addEventListener('webkitupdatestart',   logUpdatingState('start') , false);
+        sourceBuffer.addEventListener('update',              logUpdatingState('still') , false);
+        sourceBuffer.addEventListener('webkitupdate',        logUpdatingState('still') , false);
+        sourceBuffer.addEventListener('updateend',           fillSourceBuffer , false);
+        sourceBuffer.addEventListener('webkitupdateend',     fillSourceBuffer , false);
+    }
+
+    function onError(e)
+    {
         console.log("Error: " + e);
+    }
+
+    function stopInterval()
+    {
+        console.log('STOPPING INTERVAL');
+        clearInterval(theInterval);
+    }
+
+    // Logging functions for debugging
+    function logOnMessageData(dataByteLength)
+    {
+        console.log(dataByteLength);
+        console.log('Chunk-length in WS-onmessage: ' + chunks.length);
+    }
+
+    function logFillSourceBufferData()
+    {
+        console.log('chunk-länge am Anfang von fillSourceBuffer: ' + chunks.length);
+    }
+
+    function logUpdatingState(state) {
+        console.log(state + ' updating');
     }
     </script>
 </body>
