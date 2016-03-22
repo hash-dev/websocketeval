@@ -1,7 +1,5 @@
 (function() {
 
-    var host = 'localhost';
-    var wsUri = 'ws://' + host + ':8081';
     var output;
 
     function init() {
@@ -10,7 +8,7 @@
     }
 
     function testWebSocket() {
-        websocket = new WebSocket(wsUri);
+        websocket = new WebSocket("ws://" + window.location.host + "/idlemetadatapush");
         websocket.onopen = function(evt) {
             onOpen(evt);
         };

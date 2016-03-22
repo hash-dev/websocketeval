@@ -9,7 +9,7 @@
             sourceBuffer,
             chunks = [],
             video = document.querySelector('video'),
-            codecs = 'video/mp4; codecs="avc1.64001F"';
+            codecs = 'video/webm; codecs="vorbis,vp8"';
         video.src = window.URL.createObjectURL(mediaSource);
 
         mediaSource.addEventListener('sourceopen', sourceOpenCallback, false);
