@@ -164,6 +164,9 @@ if (!sticky.listen(httpServer, 8080)) {
 }
 
 // routes
+app.get('/', function (req,res){
+  res.render('index',{title:'WebSocket Evaluation'});
+});
 app.get('/stream', function(req, res) {
     res.sendFile(__dirname + '/static/stream.html');
 });
