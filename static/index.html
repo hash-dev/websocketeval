@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=egde">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Holger Harms">
+    <title>WebSocket Evaluation</title>
+    <link href="res/css/bootstrap.min.css" rel="stylesheet">
+    <link href="res/css/metisMenu.min.css" rel="stylesheet">
+    <link href="res/css/sb-admin-2.css" rel="stylesheet">
+    <link href="res/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div class="header clearfix">
+            <h3 class="text-muted">Masterprojekt - Realtime Web-Communication</h3>
+        </div>
+        <hr>
+        <div class="jumbotron">
+            <h1>WebSocket Evaluation</h1>
+            <p class="lead">
+                The prototypes aim to examine the capacity, performance and limits of the WebSocket protocol.
+            </p>
+        </div>
+        <div class="row marketing">
+            <div class="col-md-12">
+                <h4>Prototype-One - Testcase 1</h4>
+                <p><strong>Arbitrary Data Serverpush</strong> - a simple ws-server: random text data is being pushed to the client.</p>
+                <p>
+                    Test-Setup with JMeter: Long-lived and mostly idle connections. The number of connections varies from 1,000 to 50,000, message size from 10 to 4096 bytes, and the frequency of messages from 0.1 to 10 seconds.
+                </p>
+            </div>
+            <div class="row narrow">
+                <div id="output1">
+                    <p id="server-data1"></p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row marketing">
+            <div class="col-md-12">
+                <h4>Prototype-One - Testcase 2</h4>
+                <p><strong>Arbitrary Data Serverpush</strong> - a simple ws-server: random text data is being pushed to the client.</p>
+                <p>
+                    Test-Setup with JMeter: Short-lived but highly active connections. The number of concurrent connections is constant at 500, with 50 messages per connection and no delay between messages. Message size ranged from 1 to 4096 bytes.
+                </p>
+            </div>
+            <div class="row narrow">
+                <div id="output2">
+                    <p id="server-data2"></p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row marketing">
+            <div class="col-md-12">
+                <h4>Prototype-Two</h4>
+                <p><strong>Push Notification Server</strong> - a simple socket.io-server: changed data is being pushed to the client.</p>
+            </div>
+            <div class="row narrow">
+                <time style="margin-left: 30px;"></time>
+                <div id="container" style="margin-left:30px;">Changed XML-file data causes Socket.IO-server to update this content.</div>
+            </div>
+        </div>
+        <div class="row marketing">
+            <div class="col-md-12">
+                <h4>Prototype-Three</h4>
+                <p><strong>WebRTC Application</strong> - very simple video stream with a Node.js signaling server</p>
+                <div id="mainDiv">
+                    <table border="1" width="100%">
+                        <tr>
+                            <th>
+                                Local video
+                            </th>
+                            <th>
+                                Remote video
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <video id="localVideo" autoplay></video>
+                            </td>
+                            <td>
+                                <video id="remoteVideo" autoplay></video>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <textarea rows="4" cols="60" id="dataChannelSend" disabled="disabled" placeholder="This will be enabled once the data channel is up..."></textarea>
+                            </td>
+                            <td align="center">
+                                <button id="sendButton" disabled="disabled">Send</button>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <footer class="footer">
+            <p>2015 - Masterprojekt - TH Köln</p>
+        </footer>
+    </div>
+    <script type="text/javascript" src="res/js/jquery.min.js"></script>
+    <script type="text/javascript" src="res/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="res/js/metisMenu.min.js"></script>
+    <script type="text/javascript" src="res/js/sb-admin-2.js"></script>
+    <script type="text/javascript" src="prototype1/testcase1/client.js"></script>
+    <script type="text/javascript" src="prototype1/testcase2/client.js"></script>
+    <script type="text/javascript" src="node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
+    <script type="text/javascript" src="prototype2/client.js"></script>
+    <script type="text/javascript" src="prototype3/adapter.js"></script>
+    <script type="text/javascript" src="prototype3/completeNodeClientWithDataChannel.js"></script>
+</body>
+
+</html>
