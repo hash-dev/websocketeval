@@ -45,7 +45,9 @@ wss.on('connection', function(ws)
                     }
                     var xml = data;
                     var json = xmlParser.parser(xml);
-                    ws.send(json.xml);
+                    if(ws.readyState == 1) {
+                        ws.send(json.xml);
+                    }
                 });
         });
     }
@@ -64,8 +66,11 @@ function startPlaying()
         console.log('Sending chunk of data: ' + count);
         console.log("Sending to " + sockets.length + " sockets");
         */
-        sockets.forEach(function(connection) {
-            connection.send(data, { binary: true, mask: false });
+        sockets.forEach(function(ws)
+        {
+            if(ws.readyState == 1) {
+                ws.send(data, { binary: true, mask: false });
+            }
         });
     });
 

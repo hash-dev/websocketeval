@@ -18,6 +18,8 @@
         mediaSource.addEventListener('webkitsourceended', sourceEndedCallback , false);
         mediaSource.addEventListener('sourceclose', sourceEndedCallback , false);
         mediaSource.addEventListener('webkitsourceclose', sourceEndedCallback , false);
+    } else {
+        console.log('MediaSource-Plugin or Codec not supported.');
     }
 
     function sourceOpenCallback(e)
