@@ -165,22 +165,37 @@ if (!sticky.listen(httpServer, 8080)) {
 
 // routes
 app.get('/', function (req,res){
-  res.render('index',{title:'WebSocket Evaluation'});
+  res.render('index', {
+        title: 'WebSocket Evaluation',
+        teaser: 'The prototypes aim to examine the capacity, performance and limits of the WebSocket protocol.'
+    });
 });
 app.get('/stream', function(req, res) {
-    res.sendFile(__dirname + '/static/stream.html');
+    res.render('stream', {
+        title: 'WS Videostream',
+        teaser: 'Videostream with WebSockets and MediaSource Plugin'
+    });
 });
 
 app.get('/idlemetadatapush', function(req, res) {
-    res.sendFile(__dirname + '/static/idlemetadatapush.html');
+    res.render('idlemetadatapush', {
+        title: 'Metadata Push',
+        teaser: 'Long-lived and mostly idle connections.'
+    });
 });
 
 app.get('/activemetadatapush', function(req, res) {
-    res.sendFile(__dirname + '/static/activemetadatapush.html');
+    res.render('activemetadatapush', {
+        title: 'Metadata Push',
+        teaser: 'Short-lived but highly active connections.'
+    });
 });
 
 app.get('/pushnotification', function(req, res) {
-    res.sendFile(__dirname + '/static/pushnotification.html');
+    res.render('pushnotification', {
+        title: 'Push Notification',
+        teaser: 'A changed XML-file data causes the ws-server to update the content.'
+    });
 });
 
 // functions

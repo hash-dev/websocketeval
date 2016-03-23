@@ -3,6 +3,24 @@ html
   head
     title #{title}
     meta(charset="UTF-8")
+    link(rel = 'stylesheet', href = '/css/bootstrap.min.css')
     link(rel = 'stylesheet', href = '/css/base.css')
   body
-    block content
+    div(class='container')
+        div(class='header clearfix')
+            h3(class='text-muted') Realtime Web-Communication
+            ul(class='nav nav-tabs')
+                li(role='presentation')
+                    a(href='http://localhost:8080/') Home
+                li(role='presentation')
+                    a(href='http://localhost:8080/stream') WS-Videostream
+                li(role='presentation')
+                    a(href='http://localhost:8080/idlemetadatapush') Metadata Push 1
+                li(role='presentation')
+                    a(href='http://localhost:8080/activemetadatapush') Metadata Push 2
+                li(role='presentation')
+                    a(href='http://localhost:8080/pushnotification') Push Notification
+        div(class='jumbotron')
+            h1 #{title}
+            p(class='lead') #{teaser}
+        block content

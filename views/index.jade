@@ -1,5 +1,30 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    div(class='row marketing')
+        div(class='col-md-6')
+            h2 WS-Videostream - Prototype 1
+            hr
+            p
+                strong Videostream over WebSockets with combination with the Firefox MediaSource Plugin.
+            p Binary video data is being pushed over a websocket connection. On the client side the received data is collected with by the MediaSource plugin and played back by a HTML5 video player.
+        div(class='col-md-6')
+            h2 Metadata Push - Prototype 2 Testcase 1
+            hr
+            p
+                strong Arbitrary Data Serverpush - a simple ws-server: random text data is being pushed to the client.
+            p Test-Setup with JMeter: Long-lived and mostly idle connections. The number of connections varies from 1,000 to 50,000, message size from 10 to 4096 bytes, and the frequency of messages from 0.1 to 10 seconds.
+
+    div(class='row marketing')
+        div(class='col-md-6')
+            h2 Metadata Push - Prototype 2 Testcase 2
+            hr
+            p
+                strong Arbitrary Data Serverpush - a simple ws-server: random text data is being pushed to the client.
+            p Test-Setup with JMeter: Short-lived but highly active connections. The number of concurrent connections is constant at 500, with 50 messages per connection and no delay between messages. Message size ranged from 1 to 4096 bytes.
+        div(class='col-md-6')
+            h2 Push Notification - Prototype 3
+            hr
+            p
+                strong Push Notification Server - a simple ws-server: changed data is being pushed to the client.
+            p A changed XML-file data causes the ws-server to update the content.

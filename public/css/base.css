@@ -1,10 +1,26 @@
-.container {
-    background: none;
+.jumbotron {
+    padding-bottom: 8px;
+    padding-top: 8px;
 }
 
-.narrow {
-    padding: 0 15px;
+.jumbotron h1 {
+    font-size: 50px;
 }
 
+.header h3 {
+    float: left;
+    border-bottom: none;
+    margin-top: 11px;
+}
 
-/*# sourceMappingURL=websocketeval.css.map */
+.nav-tabs {
+    float: right;
+}
+
+#time {
+    margin-left: 30px;
+}
+
+#container {
+    margin-left:30px;
+}
