@@ -1,10 +1,10 @@
 # websocketeval
 
-This project includes small websocket prototypes aimed to examine the capacity, performance and limits of the WebSocket protocol. 
+This project includes small websocket prototypes as described below, that aim to examine the capacity, performance and limits of the WebSocket protocol. 
 
-The lib-folder contains the prototypes including server- and potential client-js files, which can be used for an HTML client stub.
+The **app.js** contains the serverside-components of the prototypes. The client-side equivalents can be found in **public/js**.
 
-The tesplans-folder contains JMeter testplans for the prototype's relating testcases.
+The **res/tesplans-folder** contains JMeter testplans for the prototype 2 relating testcases.
 
 ## Prerequisites
 
@@ -12,19 +12,23 @@ The tesplans-folder contains JMeter testplans for the prototype's relating testc
 
 ## Usage
 
-* Clone the project or download the .zip-archive
-* Change into the root-directory
-* Install the necessary dependencies via npm:
+* Change into the project's root-directory
+
+* Install the necessary application dependencies via npm:
 
 ```
-npm install
+$ npm install
 ```
 
 ## Prototypes
 
-### Prototype-One 
+### WS-Videostream - Prototype 1
 
-Arbitrary Data Serverpush - a simple ws-server: random text data is being pushed to the client.
+Video-Stream Server over WebSockets - video is being played on the client side via the MediaSource-Plugin provided by the browser - **the Firefox-API has been used**.
+
+### Metadata Serverpush - Prototype 2 
+
+A simple ws-server: random text data is being pushed to the client.
 
 #### Testcase 1
 
@@ -34,10 +38,6 @@ JMeter-Testplan: Long-lived and mostly idle connections. The number of connectio
 
 JMeter-Testplan: Short-lived but highly active connections. The number of concurrent connections is constant at 500, with 50 messages per connection and no delay between messages. Message size ranged from 1 to 4096 bytes.
 
-### Prototype-Two
+### Push Notification - Prototype 3
 
-Push Notification Server - a simple socket.io-server: changed data is being pushed to the client. Folder also includes a small js-script that automatically changes the xml-file every second.
-
-### Prototype-Three
-
-Video-Stream Server over WebSocket - video is being played on the client side with help by the MediaSource-Plugin provided by the browser (not yet fully functioning).
+A changed xml-file causes the ws-server to update the content. **res/testdata** includes the watched xml-file as well as a small js-script that automatically changes the xml-file every second.
