@@ -58,8 +58,9 @@ if (!sticky.listen(httpServer, 8080)) {
 
         // Prototype 2 - WebSocket metadata push
         // Testcase 1 - mostly idle connections
-        if (ws.upgradeReq.url === '/idlemetadatapush') {
-            var idleTimeout = setTimeout(function() {
+        if (ws.upgradeReq.url === '/idlemetadatapush')
+        {
+            setTimeout(function() {
                 function doSend(data) {
                     wss.broadcast(data, true);
                 }
@@ -85,13 +86,14 @@ if (!sticky.listen(httpServer, 8080)) {
             ws.on('close', function() {
                 clientCounter -= 1;
                 updateGauge(serverId);
-                clearTimeout(idleTimeout);
+                ws = null;
             });
         }
 
         // Testcase 2 - active connections
-        if (ws.upgradeReq.url === '/activemetadatapush') {
-            var activeTimeout = setTimeout(function() {
+        if (ws.upgradeReq.url === '/activemetadatapush')
+        {
+            setTimeout(function() {
                 function doSend(data) {
                     wss.broadcast(data, false);
                 }
@@ -123,12 +125,12 @@ if (!sticky.listen(httpServer, 8080)) {
             ws.on('close', function() {
                 clientCounter -= 1;
                 updateGauge(serverId);
-                clearTimeout(activeTimeout);
             });
         }
 
         // Prototype 3 - WebSocket push notification
-        if (ws.upgradeReq.url === '/pushnotification') {
+        if (ws.upgradeReq.url === '/pushnotification')
+        {
             // use res/testdata/changeFile.js for automated file changing
             fs.watchFile(
                 __dirname + '/res/testdata/example.xml', {
@@ -147,6 +149,10 @@ if (!sticky.listen(httpServer, 8080)) {
                         }
                     });
                 });
+
+            ws.on('close', function() {
+                ws = null;
+            });
         }
     });
 
