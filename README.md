@@ -9,6 +9,8 @@ The **res/tesplans-folder** contains JMeter testplans for the prototype 2 relati
 ## Prerequisites
 
 * npm
+* ffmpeg
+* mp4box
 
 ## Usage
 
@@ -25,6 +27,12 @@ $ npm install
 ### WS-Videostream - Prototype 1
 
 Video-Stream Server over WebSockets - video is being played on the client side via the MediaSource-Plugin provided by the browser - **the Firefox-API has been used**.
+
+Webcam-Capture command (segments are produced automatically):
+
+```
+$ ffmpeg -f qtkit -i "default" webcamout.mpg -map 0 -f ssegment -segment_list playlist.m3u8 -segment_list_flags +live -segment_time 10 webcam_part%03d.mpg
+```
 
 ### Metadata Serverpush - Prototype 2 
 
