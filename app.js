@@ -4,6 +4,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var xmlParser = require('simple-xml2json');
+var _ = require('underscore');
 
 // enable usage of all available cpu cores
 var cluster = require('cluster'); // required if worker id is needed
@@ -18,6 +19,9 @@ var StatsD = require('node-statsd'),
 var timeToLive = 180; // Prototype 2 - Testcase 1
 var maxMessageCount = 50,
     messageCount = 0; // Prototype 2 - Testcase 2
+var mpgDashSegmentsPath = 'res/dashsegments/',
+    broadcastQueue = [],
+    isBroadcasting = false; // Prototype 1
 
 // init and configure express webserver
 var app = express();
@@ -205,24 +209,86 @@ app.get('/pushnotification', function(req, res) {
 });
 
 // functions
-function startPlaying() {
-    var readStream = fs.createReadStream('res/testvideos/univac.webm');
-    var count = 0;
+function startPlaying()
+{
+    fs.watch(
+        mpgDashSegmentsPath,
+        {
+            persistent: true,
+            interval: 1000
+        },
+        function(curr, prev)
+        {
+            addToQueue( getMostRecentFile( mpgDashSegmentsPath, /webcam_part\d+_dashinit\.mp4/i ), broadcastQueue);
 
-    readStream.on('data', function(data)
-    {
-        count++;
-        // logReadStreamData(data.length, count, sockets.length);
+            if(broadcastQueue.length !== 0)
+            {
+                console.log('Start broadcasting');
+                console.log('Read-Stream: '+mpgDashSegmentsPath + broadcastQueue[0]);
+                var readStream = fs.createReadStream(mpgDashSegmentsPath + broadcastQueue[0] );
+                var count = 0;
 
-        sockets.forEach(function(ws) {
-            if (ws.readyState == 1) {
-                ws.send(data, { binary: true, mask: false });
+                readStream.on('data', function(data)
+                {
+                    isBroadcasting = true;
+                    count++;
+                    // logReadStreamData(data.length, count, sockets.length);
+                    sockets.forEach(function(ws) {
+                        if (ws.readyState == 1) {
+                            ws.send(data, { binary: true, mask: false });
+                        }
+                    });
+                });
+
+                readStream.on('end', function() {
+                    console.log('ReadStream for ' + broadcastQueue[0] + ' ended');
+                    broadcastQueue.shift();
+                    isBroadcasting = false;
+                });
             }
-        });
-    });
+        }
+    );
+}
 
-    readStream.on('end', function() {
-        console.log('ReadStream ended');
+function addToQueue(MostRecentFile, transcodingQueue) {
+    var match = 0;
+
+    if(transcodingQueue.length === 0) {
+        transcodingQueue.push(MostRecentFile);
+    } else {
+        for(var i=0; i<transcodingQueue.length;i++) {
+            if (transcodingQueue[i] === MostRecentFile) {
+                match = 1;
+            }
+        }
+        if(match === 0) {
+            transcodingQueue.push(MostRecentFile);
+        }
+    }
+    console.log('Added segment to queue: '+transcodingQueue);
+}
+
+// Return only base file name without dir
+function getMostRecentFile(dir, regexp) {
+    var files = fs.readdirSync(dir);
+    var mpgSegments = [];
+    var match = '';
+
+    for(var i=0; i<files.length; i++) {
+        if(files[i].match( regexp )) {
+            match = files[i].match( regexp );
+            mpgSegments.push( match[0] );
+        }
+    }
+
+    // use underscore for max()
+    return _.max(mpgSegments, function (f) {
+        var fullpath = path.join(dir, f);
+
+        // ctime = creation time is used
+        // replace with mtime for modification time
+        console.log('Most recent file: '+fs.statSync(fullpath).ctime);
+        return fs.statSync(fullpath).ctime;
     });
 }
 
