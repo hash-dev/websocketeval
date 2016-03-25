@@ -46,6 +46,7 @@
         console.log('Source ended');
     }
 
+    // TODO: Append new segments correctly to the end of the sourcebuffer
     function fillSourceBuffer()
     {
         if (!sourceBuffer.updating)

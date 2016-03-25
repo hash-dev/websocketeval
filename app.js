@@ -221,7 +221,7 @@ function startPlaying()
         {
             addToQueue( getMostRecentFile( mpgDashSegmentsPath, /webcam_part\d+_dashinit\.mp4/i ), broadcastQueue);
 
-            if(broadcastQueue.length !== 0)
+            if(broadcastQueue.length !== 0 && isBroadcasting === false)
             {
                 console.log('Start broadcasting');
                 console.log('Read-Stream: '+mpgDashSegmentsPath + broadcastQueue[0]);
