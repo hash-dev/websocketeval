@@ -40,3 +40,50 @@ A changed xml-file causes the ws-server to update the content. **res/testdata** 
 ```
 $ node changeFile.js
 ```
+
+## Server configuration
+
+[AWS instance types](https://aws.amazon.com/de/ec2/instance-types/ "AWS instance types")
+
+### WS Server
+
+#### Lightweight 
+
+* AWS instance: 
+    - t2.medium
+* monitoring:
+    - graphite -> collectd -> statsd
+* software:
+    - nodejs/npm
+    - git
+    - apache webserver
+
+#### Heavyweight
+
+* AWS instance: 
+    - m4.xlarge
+* monitoring:
+    - graphite -> collectd -> statsd
+* software:
+    - nodejs/npm
+    - git
+    - apache webserver
+
+#### jMeter Client Server
+
+* AWS instance:
+    - t2.large
+* software:
+    - jmeter
+    - [jmeter response pattern fix](https://github.com/elyrank/JMeter-WebSocketSampler)
+
+## Tests
+
+*  heavyweight - testcase 1 - 1h - 50k clients
+*  heavyweight - testcase 1 - 5min - 50k clients
+*  heavyweight - testcase 2 - 1h (20min) - 10k clients
+*  heavyweight - testcase 2 - 5min - 10k clients
+*  lightweight - testcase 1 - 1h - 50k clients
+*  lightweight - testcase 1 - 5min - 50k clients
+*  lightweight - testcase 2 - 1h (20min) - 10k clients
+*  lightweight - testcase 2 - 5min - 10k clients
